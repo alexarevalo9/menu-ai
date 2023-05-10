@@ -3,7 +3,7 @@
 The Menu AI Generator is a web application that allows users to generate menus based on a list of foods, their weight, and their weight goals. The application uses the OpenAI API to generate menus that are tailored to the user's needs. The project is built using [T3 Stack](https://create.t3.gg/), React.js, Next.js, Tailwind CSS, tRPC and the OpenAI API.
 
 [![DeepScan grade](https://deepscan.io/api/teams/21123/projects/24543/branches/757838/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=21123&pid=24543&bid=757838)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/alexarevalo9/menu-ai/blob/main/LICENSE)
 
 ## Installation
 
