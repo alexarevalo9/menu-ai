@@ -18,6 +18,9 @@ const buttonStyles = cva(
         medium: "text-base py-2 px-4",
         large: "text-lg py-3 px-4",
       },
+      disabled: {
+        true: "cursor-not-allowed bg-gray-200 text-gray-400",
+      },
     },
     defaultVariants: {
       intent: "primary",
@@ -37,11 +40,15 @@ export default function Button({
   size,
   children,
   isLoading,
+  disabled,
   ...props
 }: ButtonProps) {
-  console.log("size", size);
   return (
-    <button className={buttonStyles({ intent, fullWidth, size })} {...props}>
+    <button
+      className={buttonStyles({ intent, fullWidth, size, disabled })}
+      disabled={disabled}
+      {...props}
+    >
       {isLoading ? <Spinner size={size} /> : children}
     </button>
   );
