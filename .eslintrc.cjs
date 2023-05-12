@@ -13,6 +13,14 @@ const config = {
         project: path.join(__dirname, "tsconfig.json"),
       },
     },
+    {
+      extends: ["plugin:storybook/recommended"],
+      files: ["*.stories.@(ts|tsx|js|jsx|mjs|cjs)"],
+      rules: {
+        "storybook/hierarchy-separator": "error",
+        "storybook/default-exports": "off",
+      },
+    },
   ],
   parser: "@typescript-eslint/parser",
   parserOptions: {
