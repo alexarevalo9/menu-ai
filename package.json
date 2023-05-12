@@ -10,7 +10,8 @@
     "start": "next start",
     "test": "jest",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "serve-storybook": "serve storybook-static"
   },
   "dependencies": {
     "@prisma/client": "^4.11.0",
