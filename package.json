@@ -14,6 +14,7 @@
     "serve-storybook": "serve storybook-static"
   },
   "dependencies": {
+    "@clerk/nextjs": "^4.18.2",
     "@prisma/client": "^4.11.0",
     "@tanstack/react-query": "^4.28.0",
     "@trpc/client": "^10.18.0",
