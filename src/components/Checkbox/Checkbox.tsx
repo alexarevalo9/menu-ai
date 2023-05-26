@@ -1,5 +1,5 @@
 import { cva, type VariantProps } from "class-variance-authority";
-import { ComponentProps } from "react";
+import { type ComponentProps } from "react";
 
 const checkBoxStyles = cva("h-5 w-5 border-[3px] focus:ring-0", {
   variants: {

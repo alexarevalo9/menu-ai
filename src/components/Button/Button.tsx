@@ -1,5 +1,5 @@
 import { cva, type VariantProps } from "class-variance-authority";
-import { ComponentProps } from "react";
+import { type ComponentProps } from "react";
 import Spinner from "../Spinner/Spinner";
 
 const buttonStyles = cva(
