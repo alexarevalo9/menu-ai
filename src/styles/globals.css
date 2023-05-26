@@ -4,16 +4,16 @@
 
 .dark-gradient {
   background-image: linear-gradient(
-    335deg,
-    hsl(240deg 100% 20%) 0%,
-    hsl(245deg 94% 18%) 22%,
-    hsl(249deg 89% 17%) 33%,
-    hsl(252deg 84% 15%) 42%,
-    hsl(256deg 79% 13%) 49%,
-    hsl(260deg 75% 11%) 57%,
-    hsl(266deg 71% 9%) 65%,
-    hsl(271deg 64% 7%) 74%,
-    hsl(270deg 51% 6%) 85%,
-    hsl(0deg 0% 3%) 100%
+    320deg,
+    hsl(240deg 38% 85%) 0%,
+    hsl(242deg 29% 76%) 8%,
+    hsl(243deg 25% 68%) 15%,
+    hsl(245deg 22% 60%) 21%,
+    hsl(247deg 20% 52%) 26%,
+    hsl(248deg 24% 44%) 32%,
+    hsl(249deg 31% 36%) 40%,
+    hsl(249deg 42% 29%) 53%,
+    hsl(248deg 58% 21%) 72%,
+    hsl(248deg 100% 13%) 100%
   );
 }
