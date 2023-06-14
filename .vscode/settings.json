@@ -1,5 +1,6 @@
 {
   "tailwindCSS.experimental.classRegex": [
     ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"]
-  ]
+  ],
+  "ansible.python.interpreterPath": "/bin/python"
 }

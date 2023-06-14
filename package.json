@@ -15,6 +15,9 @@
   },
   "dependencies": {
     "@clerk/nextjs": "^4.18.2",
+    "@headlessui/react": "^1.7.14",
+    "@headlessui/tailwindcss": "^0.1.3",
+    "@heroicons/react": "^2.0.18",
     "@prisma/client": "^4.11.0",
     "@tanstack/react-query": "^4.28.0",
     "@trpc/client": "^10.18.0",
@@ -28,7 +31,8 @@
     "react-dom": "18.2.0",
     "react-hook-form": "^7.43.9",
     "superjson": "1.12.2",
-    "zod": "^3.21.4"
+    "zod": "^3.21.4",
+    "zustand": "^4.3.8"
   },
   "devDependencies": {
     "@storybook/addon-essentials": "^7.0.10",
