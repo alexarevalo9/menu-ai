@@ -9,7 +9,10 @@ interface IOnboarding {
     birthdate: string;
     country: string;
   };
-  measures: string;
+  measures: {
+    weight: string;
+    height: string;
+  };
 }
 
 interface IOnboardingState {
@@ -25,7 +28,10 @@ const initialState: IOnboarding = {
     country: "",
     gender: "",
   },
-  measures: "",
+  measures: {
+    height: "",
+    weight: "",
+  },
 };
 
 export const useOnboardingStore = create(

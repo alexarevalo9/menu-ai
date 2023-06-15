@@ -29,6 +29,9 @@ export default function ActivePage() {
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <OnboardingLayout>
+        <h1 className="my-7 w-full text-center text-2xl font-bold">
+          How active you are?
+        </h1>
         <RadioGroupComponent
           name="active"
           options={[

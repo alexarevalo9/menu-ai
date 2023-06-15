@@ -1,6 +1,8 @@
 import Button from "@/components/Button/Button";
 import Steps from "@/components/Steps/Steps";
 import { PATH_ONBOARDING } from "@/routes/paths";
+import { useOnboardingStore } from "@/store/onboardingStore";
+import { isEmptyObject } from "@/utils/object";
 import { useRouter } from "next/router";
 import React from "react";
 
@@ -10,9 +12,10 @@ type OnboardingLayoutProps = {
 
 export default function OnboardingLayout({ children }: OnboardingLayoutProps) {
   const router = useRouter();
+  const { onboardingData } = useOnboardingStore();
 
-  const getStepStatus = (href: string) => {
-    if (false) {
+  const getStepStatus = (href: string, isComplete: boolean) => {
+    if (isComplete) {
       return "complete";
     }
     if (href === router.pathname) {
@@ -43,25 +46,34 @@ export default function OnboardingLayout({ children }: OnboardingLayoutProps) {
             id: "01",
             name: "Goal",
             href: PATH_ONBOARDING.goal,
-            status: getStepStatus(PATH_ONBOARDING.goal),
+            status: getStepStatus(PATH_ONBOARDING.goal, !!onboardingData.goal),
           },
           {
             id: "02",
             name: "Active",
             href: PATH_ONBOARDING.active,
-            status: getStepStatus(PATH_ONBOARDING.active),
+            status: getStepStatus(
+              PATH_ONBOARDING.active,
+              !!onboardingData.active
+            ),
           },
           {
             id: "03",
             name: "Profile",
             href: PATH_ONBOARDING.profile,
-            status: getStepStatus(PATH_ONBOARDING.profile),
+            status: getStepStatus(
+              PATH_ONBOARDING.profile,
+              !isEmptyObject(onboardingData.profile)
+            ),
           },
           {
             id: "04",
             name: "Measures",
             href: PATH_ONBOARDING.measures,
-            status: getStepStatus(PATH_ONBOARDING.measures),
+            status: getStepStatus(
+              PATH_ONBOARDING.measures,
+              !isEmptyObject(onboardingData.measures)
+            ),
           },
         ]}
       />

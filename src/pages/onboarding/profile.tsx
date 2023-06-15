@@ -76,6 +76,7 @@ export default function ProfilePage() {
             id="country"
             name="country"
             className="px-6 py-4"
+            placeholder="Ecuador"
             required
           />
         </div>

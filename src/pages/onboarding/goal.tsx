@@ -12,6 +12,7 @@ type FormGoalProps = {
 };
 
 // TODO: Add i18next
+// TODO: Add testing
 export default function GoalPage() {
   const { onboardingData, setOnboardingData } = useOnboardingStore();
   const router = useRouter();
@@ -30,6 +31,9 @@ export default function GoalPage() {
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <OnboardingLayout>
+        <h1 className="my-7 w-full text-center text-2xl font-bold">
+          What is your goal?
+        </h1>
         <RadioGroupComponent
           name="goal"
           alignCenter
