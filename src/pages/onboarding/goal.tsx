@@ -6,16 +6,18 @@ import RadioGroupComponent from "@/components/RHF/RadioGroup/RadioGroup";
 import { useOnboardingStore } from "@/store/onboardingStore";
 import { useRouter } from "next/router";
 import { PATH_ONBOARDING } from "@/routes/paths";
+import useLocales from "@/locales/useLocales";
 
 type FormGoalProps = {
   goal: string;
 };
 
-// TODO: Add i18next
+// TODO: Add language select
 // TODO: Add testing
 export default function GoalPage() {
   const { onboardingData, setOnboardingData } = useOnboardingStore();
   const router = useRouter();
+  const { translate } = useLocales();
   const methods = useForm<FormGoalProps>({
     defaultValues: {
       goal: onboardingData.goal,
@@ -32,7 +34,7 @@ export default function GoalPage() {
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <OnboardingLayout>
         <h1 className="my-7 w-full text-center text-2xl font-bold">
-          What is your goal?
+          {translate("onboarding.goal.title")}
         </h1>
         <RadioGroupComponent
           name="goal"

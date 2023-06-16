@@ -1,9 +1,9 @@
 import { type AppType } from "next/app";
 import { ClerkProvider } from "@clerk/nextjs";
-
 import { api } from "@/utils/api";
 
 import "@/styles/globals.css";
+import "@/locales/i18n";
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (
