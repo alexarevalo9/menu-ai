@@ -5,6 +5,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { useOnboardingStore } from "@/store/onboardingStore";
 import { useRouter } from "next/router";
+import useLocales from "@/locales/useLocales";
 
 type FormMeasuresProps = {
   height: string;
@@ -13,6 +14,7 @@ type FormMeasuresProps = {
 
 export default function MeasuresPage() {
   const { onboardingData, setOnboardingData } = useOnboardingStore();
+  const { translate } = useLocales();
   const router = useRouter();
   const methods = useForm<FormMeasuresProps>({
     defaultValues: {
@@ -39,7 +41,7 @@ export default function MeasuresPage() {
         <div>
           <div className="my-7 w-full text-center">
             <label className="text-2xl font-bold" htmlFor="height">
-              How tall are you?
+              {translate("onboarding.measures.tall.title")}
             </label>
           </div>
           <Input
@@ -54,7 +56,7 @@ export default function MeasuresPage() {
         <div>
           <div className="my-7 w-full text-center">
             <label className="text-2xl font-bold" htmlFor="weight">
-              How much do you weigh?
+              {translate("onboarding.measures.weight.title")}
             </label>
           </div>
           <Input

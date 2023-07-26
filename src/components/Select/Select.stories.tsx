@@ -17,10 +17,12 @@ export const Default: Story = {
       {
         id: 1,
         name: "English",
+        value: "en",
       },
       {
         id: 2,
-        name: "Spanish",
+        name: "Español",
+        value: "es",
       },
     ],
     size: "medium",

@@ -11,7 +11,7 @@ export const allLangs: ILang[] = [
     icon: "",
   },
   {
-    label: "Spanish",
+    label: "Español",
     value: "es",
     icon: "",
   },

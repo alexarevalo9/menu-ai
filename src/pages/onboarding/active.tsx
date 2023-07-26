@@ -6,6 +6,7 @@ import RadioGroupComponent from "@/components/RHF/RadioGroup/RadioGroup";
 import { useOnboardingStore } from "@/store/onboardingStore";
 import { useRouter } from "next/router";
 import { PATH_ONBOARDING } from "@/routes/paths";
+import useLocales from "@/locales/useLocales";
 
 type FormActiveProps = {
   active: string;
@@ -13,6 +14,7 @@ type FormActiveProps = {
 
 export default function ActivePage() {
   const { onboardingData, setOnboardingData } = useOnboardingStore();
+  const { translate } = useLocales();
   const router = useRouter();
   const methods = useForm<FormActiveProps>({
     defaultValues: {
@@ -30,33 +32,29 @@ export default function ActivePage() {
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <OnboardingLayout>
         <h1 className="my-7 w-full text-center text-2xl font-bold">
-          How active you are?
+          {translate("onboarding.active.title")}
         </h1>
         <RadioGroupComponent
           name="active"
           options={[
             {
-              label: "Not very Active",
-              description:
-                "Spend most of the day sitting (e.g. bank teller, desk job)",
+              label: translate("onboarding.active.first.title"),
+              description: translate("onboarding.active.first.description"),
               value: "not-very-active",
             },
             {
-              label: "Active",
-              description:
-                "Spend a good part of the day doing some physical activity (e.g food server postal carrier)",
+              label: translate("onboarding.active.second.title"),
+              description: translate("onboarding.active.second.description"),
               value: "active",
             },
             {
-              label: "Lightly Active",
-              description:
-                "Spend a good part of the day on your feet (e.g. teacher, salesperson)",
+              label: translate("onboarding.active.third.title"),
+              description: translate("onboarding.active.third.description"),
               value: "lightly-active",
             },
             {
-              label: "Very Active",
-              description:
-                "Spend most of the day doing heavy physical activity (e.g bike messenger, carpenter)",
+              label: translate("onboarding.active.fourth.title"),
+              description: translate("onboarding.active.fourth.description"),
               value: "very-active",
             },
           ]}

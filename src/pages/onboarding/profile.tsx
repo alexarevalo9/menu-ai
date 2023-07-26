@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { PATH_ONBOARDING } from "@/routes/paths";
 import DateInput from "@/components/RHF/DateInput/DateInput";
 import Input from "@/components/RHF/Input/Input";
+import useLocales from "@/locales/useLocales";
 
 type FormProfileProps = {
   gender: string;
@@ -16,6 +17,7 @@ type FormProfileProps = {
 
 export default function ProfilePage() {
   const { onboardingData, setOnboardingData } = useOnboardingStore();
+  const { translate } = useLocales();
   const router = useRouter();
   const methods = useForm<FormProfileProps>({
     defaultValues: {
@@ -41,18 +43,20 @@ export default function ProfilePage() {
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <OnboardingLayout>
-        <div className="mb-7 text-center text-2xl font-bold">I am</div>
+        <div className="mb-7 text-center text-2xl font-bold">
+          {translate("onboarding.profile.gender.title")}
+        </div>
         <RadioGroupComponent
           name="gender"
           alignCenter
           flexRow
           options={[
             {
-              label: "Male",
+              label: translate("onboarding.profile.gender.male"),
               value: "male",
             },
             {
-              label: "Female",
+              label: translate("onboarding.profile.gender.female"),
               value: "female",
             },
           ]}
@@ -60,7 +64,7 @@ export default function ProfilePage() {
         <div>
           <div className="my-7 w-full text-center">
             <label className="text-2xl font-bold" htmlFor="birthdate">
-              When were you born?
+              {translate("onboarding.profile.birthdate.title")}
             </label>
           </div>
           <DateInput id="birthdate" name="birthdate" fullWidth required />
@@ -68,7 +72,7 @@ export default function ProfilePage() {
         <div>
           <div className="my-7 w-full text-center">
             <label className="text-2xl font-bold" htmlFor="country">
-              When are you from?
+              {translate("onboarding.profile.country.title")}
             </label>
           </div>
           <Input

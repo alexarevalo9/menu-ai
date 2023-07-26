@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import Image from "next/image";
@@ -21,39 +21,54 @@ const selectStyles = cva(
   }
 );
 
-type SelectProps = VariantProps<typeof selectStyles> & {
-  mainIcon?: React.ReactNode;
-  items: {
-    id: number;
-    name: string;
-    avatar?: string;
-  }[];
+type SelectItem = {
+  id: number | string;
+  name: string;
+  value: string;
+  avatar?: string;
 };
 
-export default function Select({ items, mainIcon, size }: SelectProps) {
-  const [selected, setSelected] = useState(items[0]);
+type SelectProps = VariantProps<typeof selectStyles> & {
+  mainIcon?: React.ReactNode;
+  selectLabel?: string;
+  onChange: (item: SelectItem) => void;
+  selectedValue?: SelectItem;
+  items: SelectItem[];
+};
 
+export default function Select({
+  items,
+  mainIcon,
+  size,
+  selectLabel,
+  onChange,
+  selectedValue,
+}: SelectProps) {
   return (
-    <Listbox value={selected} onChange={setSelected}>
+    <Listbox value={selectedValue} onChange={onChange}>
       {({ open }) => (
         <>
-          <Listbox.Label className="block text-sm font-medium leading-6 text-gray-900">
-            Assigned to
-          </Listbox.Label>
+          {selectLabel && (
+            <Listbox.Label className="block text-sm font-medium leading-6 text-gray-900">
+              {selectLabel}
+            </Listbox.Label>
+          )}
           <div className="relative mt-2">
             <Listbox.Button className={clsx(selectStyles({ size }))}>
               <span className="flex items-center">
                 {mainIcon ? mainIcon : null}
-                {selected?.avatar && (
+                {selectedValue?.avatar && (
                   <Image
-                    src={selected.avatar}
+                    src={selectedValue.avatar}
                     width={20}
                     height={20}
                     alt="avatar"
                     className="h-5 w-5 flex-shrink-0 rounded-full"
                   />
                 )}
-                <span className="ml-3 block truncate">{selected?.name}</span>
+                <span className="ml-3 block truncate">
+                  {selectedValue?.name}
+                </span>
               </span>
               <span className="pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center pr-2">
                 <ChevronUpDownIcon

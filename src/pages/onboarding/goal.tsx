@@ -12,7 +12,6 @@ type FormGoalProps = {
   goal: string;
 };
 
-// TODO: Add language select
 // TODO: Add testing
 export default function GoalPage() {
   const { onboardingData, setOnboardingData } = useOnboardingStore();
@@ -41,15 +40,15 @@ export default function GoalPage() {
           alignCenter
           options={[
             {
-              label: "Lose Weight",
+              label: translate("onboarding.goal.loseWeight"),
               value: "lose",
             },
             {
-              label: "Maintain Weight",
+              label: translate("onboarding.goal.maintainWeight"),
               value: "maintain",
             },
             {
-              label: "Gain Weight",
+              label: translate("onboarding.goal.gainWeight"),
               value: "gain",
             },
           ]}

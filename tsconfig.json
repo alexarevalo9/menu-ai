@@ -24,7 +24,8 @@
   "include": [
     ".eslintrc.cjs",
     "next-env.d.ts",
-    "jest.config.js",
+    "jest.configs.js",
+    "jest.setup.js",
     "**/*.ts",
     "**/*.tsx",
     "**/*.cjs",
