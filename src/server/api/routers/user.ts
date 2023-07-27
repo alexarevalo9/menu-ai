@@ -10,9 +10,6 @@ export const userRouter = createTRPCRouter({
         data: {
           userId: input.userId,
         },
-        include: {
-          onBoarding: true,
-        },
       });
 
       return user;
@@ -48,6 +45,31 @@ export const userRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ input, ctx }) => {
+      const isOnboardingDone = await ctx.prisma.onboarding.findUnique({
+        where: {
+          userId: ctx.userId,
+        },
+      });
+
+      if (isOnboardingDone) {
+        const updatedOnboarding = await ctx.prisma.onboarding.update({
+          where: {
+            userId: ctx.userId,
+          },
+          data: {
+            goal: input.goal,
+            active: input.active,
+            birthdate: input.birthdate,
+            country: input.country,
+            gender: input.gender,
+            height: input.height,
+            weight: input.weight,
+          },
+        });
+
+        return updatedOnboarding;
+      }
+
       const onboarding = await ctx.prisma.onboarding.create({
         data: {
           goal: input.goal,
@@ -58,6 +80,15 @@ export const userRouter = createTRPCRouter({
           height: input.height,
           weight: input.weight,
           userId: ctx.userId,
+        },
+      });
+
+      await ctx.prisma.user.update({
+        where: {
+          userId: ctx.userId,
+        },
+        data: {
+          isOnboardingDone: true,
         },
       });
 

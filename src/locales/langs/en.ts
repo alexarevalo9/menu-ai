@@ -59,6 +59,7 @@ const en = {
     controls: {
       next: "Next",
       back: "Back",
+      finish: "Save",
     },
   },
 };

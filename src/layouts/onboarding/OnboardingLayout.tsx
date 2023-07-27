@@ -111,13 +111,21 @@ export default function OnboardingLayout({
             fullWidth
             type="button"
             intent="secondary"
+            disabled={isLoading}
             onClick={() => router.push(getBackHref())}
           >
             {translate("onboarding.controls.back")}
           </Button>
         )}
-        <Button type="submit" isLoading={isLoading} fullWidth>
-          {translate("onboarding.controls.next")}
+        <Button
+          type="submit"
+          disabled={isLoading}
+          isLoading={isLoading}
+          fullWidth
+        >
+          {router.pathname === PATH_ONBOARDING.measures
+            ? translate("onboarding.controls.finish")
+            : translate("onboarding.controls.next")}
         </Button>
       </div>
     </div>
