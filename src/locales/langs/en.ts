@@ -43,7 +43,7 @@ const en = {
       },
     },
     measures: {
-      tall: {
+      height: {
         title: "How tall are you? (cm)",
       },
       weight: {

@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { useOnboardingStore } from "@/store/onboardingStore";
 import { useRouter } from "next/router";
 import useLocales from "@/locales/useLocales";
+import { api } from "@/utils/api";
 
 type FormMeasuresProps = {
   height: string;
@@ -13,6 +14,11 @@ type FormMeasuresProps = {
 };
 
 export default function MeasuresPage() {
+  const { mutate, isLoading } = api.user.createOnBoarding.useMutation({
+    onSuccess: () => {
+      void router.push("/");
+    },
+  });
   const { onboardingData, setOnboardingData } = useOnboardingStore();
   const { translate } = useLocales();
   const router = useRouter();
@@ -24,6 +30,7 @@ export default function MeasuresPage() {
   });
 
   const { handleSubmit } = methods;
+
   const onSubmit = (data: FormMeasuresProps) => {
     setOnboardingData({
       ...onboardingData,
@@ -32,16 +39,25 @@ export default function MeasuresPage() {
         weight: data.weight,
       },
     });
-    void router.push("/");
+
+    mutate({
+      active: onboardingData.active,
+      birthdate: new Date(onboardingData.profile.birthdate),
+      country: onboardingData.profile.country,
+      gender: onboardingData.profile.gender,
+      goal: onboardingData.goal,
+      height: Number(data.height),
+      weight: Number(data.weight),
+    });
   };
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-      <OnboardingLayout>
+      <OnboardingLayout isLoading={isLoading}>
         <div>
           <div className="my-7 w-full text-center">
             <label className="text-2xl font-bold" htmlFor="height">
-              {translate("onboarding.measures.tall.title")}
+              {translate("onboarding.measures.height.title")}
             </label>
           </div>
           <Input
@@ -50,6 +66,7 @@ export default function MeasuresPage() {
             name="height"
             className="px-6 py-4"
             placeholder="170 cm"
+            type="number"
             required
           />
         </div>
@@ -63,6 +80,7 @@ export default function MeasuresPage() {
             fullWidth
             id="weight"
             name="weight"
+            type="number"
             placeholder="60 kg"
             className="px-6 py-4"
             required

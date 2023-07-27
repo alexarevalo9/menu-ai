@@ -11,9 +11,13 @@ import useLocales from "@/locales/useLocales";
 
 type OnboardingLayoutProps = {
   children: React.ReactNode;
+  isLoading?: boolean;
 };
 
-export default function OnboardingLayout({ children }: OnboardingLayoutProps) {
+export default function OnboardingLayout({
+  children,
+  isLoading,
+}: OnboardingLayoutProps) {
   const router = useRouter();
   const { onboardingData } = useOnboardingStore();
   const { onChangeLang, currentLang, allLangs, translate } = useLocales();
@@ -112,7 +116,7 @@ export default function OnboardingLayout({ children }: OnboardingLayoutProps) {
             {translate("onboarding.controls.back")}
           </Button>
         )}
-        <Button type="submit" fullWidth>
+        <Button type="submit" isLoading={isLoading} fullWidth>
           {translate("onboarding.controls.next")}
         </Button>
       </div>
