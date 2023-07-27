@@ -9,6 +9,7 @@ module.exports = {
 
       const keys = key.split(".");
       const translation = keys.reduce(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (acc: any, currKey: string) => acc?.[currKey] ?? "",
         en
       );
