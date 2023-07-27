@@ -12,7 +12,6 @@ type FormGoalProps = {
   goal: string;
 };
 
-// TODO: Add testing
 export default function GoalPage() {
   const { onboardingData, setOnboardingData } = useOnboardingStore();
   const router = useRouter();
