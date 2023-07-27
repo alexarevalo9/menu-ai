@@ -12,6 +12,11 @@ const config = {
       parserOptions: {
         project: path.join(__dirname, "tsconfig.json"),
       },
+      rules: {
+        "@typescript-eslint/no-unsafe-assignment": "off",
+        "@typescript-eslint/no-unsafe-return": "off",
+        "@typescript-eslint/no-unsafe-member-access": "off",
+      },
     },
   ],
   parser: "@typescript-eslint/parser",
@@ -21,6 +26,12 @@ const config = {
   plugins: ["@typescript-eslint"],
   extends: ["next/core-web-vitals", "plugin:@typescript-eslint/recommended"],
   rules: {
+    "@typescript-eslint/no-misused-promises": [
+      "off",
+      {
+        checksVoidReturn: false,
+      },
+    ],
     "@typescript-eslint/consistent-type-imports": [
       "warn",
       {

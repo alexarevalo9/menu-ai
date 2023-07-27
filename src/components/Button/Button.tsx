@@ -1,6 +1,7 @@
 import { cva, type VariantProps } from "class-variance-authority";
 import { type ComponentProps } from "react";
 import Spinner from "../Spinner/Spinner";
+import clsx from "clsx";
 
 const buttonStyles = cva(
   "flex items-center justify-center rounded-lg font-medium focus:outline-none focus:ring-2 focus:ring-offset-white dark:focus:ring-offset-black focus:ring-offset-1 disabled:opacity-60 disabled:pointer-events-none hover:bg-opacity-80",
@@ -41,11 +42,15 @@ export default function Button({
   children,
   isLoading,
   disabled,
+  className,
   ...props
 }: ButtonProps) {
   return (
     <button
-      className={buttonStyles({ intent, fullWidth, size, disabled })}
+      className={clsx(
+        buttonStyles({ intent, fullWidth, size, disabled }),
+        className
+      )}
       disabled={disabled}
       {...props}
     >

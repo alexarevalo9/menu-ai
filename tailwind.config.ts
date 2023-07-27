@@ -5,5 +5,9 @@ export default {
   theme: {
     extend: {},
   },
-  plugins: [require("@tailwindcss/forms")],
+  plugins: [
+    // eslint-disable-next-line
+    require("@headlessui/tailwindcss")({ prefix: "ui" }),
+    require("@tailwindcss/forms"),
+  ],
 } satisfies Config;
