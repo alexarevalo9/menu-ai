@@ -1,7 +1,13 @@
 import { cva, type VariantProps } from "class-variance-authority";
 import { type ComponentProps } from "react";
 import clsx from "clsx";
-import { Controller, useFormContext } from "react-hook-form";
+import {
+  Controller,
+  useFormContext,
+  type ControllerRenderProps,
+  type FieldError,
+  type FieldValues,
+} from "react-hook-form";
 
 const inputStyles = cva("block rounded-md border-0 py-1.5", {
   variants: {
@@ -28,7 +34,59 @@ type InputProps = VariantProps<typeof inputStyles> &
   ComponentProps<"input"> & {
     labelText?: string;
     helperText?: string;
+    field: ControllerRenderProps<FieldValues, string>;
+    error: FieldError | undefined;
   };
+
+export function InputStory({
+  className,
+  intent,
+  fullWidth,
+  disabled,
+  name,
+  type,
+  id,
+  labelText,
+  helperText,
+  field,
+  error,
+  ...rest
+}: InputProps) {
+  return (
+    <div>
+      {labelText && (
+        <label
+          htmlFor={id}
+          className="block text-sm font-medium leading-6 text-gray-900"
+        >
+          {labelText}
+        </label>
+      )}
+      <div className="mt-2">
+        <input
+          id={id}
+          type={type}
+          disabled={disabled}
+          className={clsx(
+            inputStyles({ intent, fullWidth, disabled }),
+            className
+          )}
+          {...rest}
+          {...field}
+        />
+      </div>
+      <p
+        className={clsx(
+          intent === "error" ? "text-red-600" : "text-gray-500",
+          "mt-2 text-sm"
+        )}
+        id={`${name ?? ""}-error`}
+      >
+        {error ? error?.message : helperText}
+      </p>
+    </div>
+  );
+}
 
 export default function Input({
   className,
@@ -41,46 +99,27 @@ export default function Input({
   labelText,
   helperText,
   ...rest
-}: InputProps) {
+}: Omit<InputProps, "error" | "field">) {
   const { control } = useFormContext();
-
   return (
     <Controller
       name={name ?? ""}
       control={control}
       render={({ field, fieldState: { error } }) => (
-        <div>
-          {labelText && (
-            <label
-              htmlFor={id}
-              className="block text-sm font-medium leading-6 text-gray-900"
-            >
-              {labelText}
-            </label>
-          )}
-          <div className="mt-2">
-            <input
-              id={id}
-              type={type}
-              disabled={disabled}
-              className={clsx(
-                inputStyles({ intent, fullWidth, disabled }),
-                className
-              )}
-              {...rest}
-              {...field}
-            />
-          </div>
-          <p
-            className={clsx(
-              intent === "error" ? "text-red-600" : "text-gray-500",
-              "mt-2 text-sm"
-            )}
-            id={`${name ?? ""}-error`}
-          >
-            {error ? error?.message : helperText}
-          </p>
-        </div>
+        <InputStory
+          className={className}
+          intent={intent}
+          fullWidth={fullWidth}
+          disabled={disabled}
+          type={type}
+          id={id}
+          name={name}
+          labelText={labelText}
+          helperText={helperText}
+          field={field}
+          error={error}
+          {...rest}
+        />
       )}
     />
   );
