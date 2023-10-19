@@ -38,7 +38,6 @@ export default function OnboardingLayout({
   };
 
   const getBackHref = () => {
-    console.log(router.pathname);
     if (router.pathname === PATH_ONBOARDING.active) {
       return PATH_ONBOARDING.goal;
     }
