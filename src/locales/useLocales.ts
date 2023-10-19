@@ -1,5 +1,5 @@
 import { useTranslation } from "next-i18next";
-import localStorageAvailable from "../utils/localStorageAvailable";
+import { localStorageAvailable } from "../utils/localStorage";
 import { allLangs, defaultLang } from "./config-lang";
 
 export default function useLocales() {
