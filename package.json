@@ -24,7 +24,7 @@
     "@trpc/client": "^10.18.0",
     "@trpc/next": "^10.18.0",
     "@trpc/react-query": "^10.18.0",
-    "@trpc/server": "^10.18.0",
+    "@trpc/server": "^10.44.1",
     "ai": "^2.1.33",
     "class-variance-authority": "^0.5.2",
     "clsx": "^1.2.1",
