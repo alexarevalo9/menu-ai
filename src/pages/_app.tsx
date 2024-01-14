@@ -1,14 +1,26 @@
-import { type AppType } from "next/app";
+import { type AppProps, type AppType } from "next/app";
 import { ClerkProvider } from "@clerk/nextjs";
 import { api } from "@/utils/api";
 
 import "@/styles/globals.css";
 import "@/locales/i18n";
+import { type NextPage } from "next";
 
-const MyApp: AppType = ({ Component, pageProps }) => {
+type NextPageWithLayout = NextPage & {
+  getLayout?: (page: React.ReactElement) => React.ReactNode;
+};
+
+interface MyAppProps extends AppProps {
+  Component: NextPageWithLayout;
+}
+
+const MyApp: AppType = (props: MyAppProps) => {
+  const { Component, pageProps } = props;
+  const getLayout = Component.getLayout ?? ((page) => page);
+
   return (
     <ClerkProvider {...pageProps}>
-      <Component {...pageProps} />
+      {getLayout(<Component {...pageProps} />)}
     </ClerkProvider>
   );
 };

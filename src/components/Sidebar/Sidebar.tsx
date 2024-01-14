@@ -7,57 +7,69 @@ import {
   Bars3Icon,
   XMarkIcon,
   ChatBubbleLeftIcon,
+  PencilSquareIcon,
 } from "@heroicons/react/24/outline";
 import { IMAGES } from "@/constants/images";
+import Button from "../Button/Button";
+import { useMenuStore } from "@/store/menuStore";
+import { PATH_WEBAPP } from "@/routes/paths";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import withIsClient from "@/hocs/renderInClient";
 
-const navigation = [
-  { name: "Menu 1", href: "#", icon: ChatBubbleLeftIcon, current: true },
-  { name: "Menu 2", href: "#", icon: ChatBubbleLeftIcon, current: false },
-  { name: "Menu 3", href: "#", icon: ChatBubbleLeftIcon, current: false },
-  { name: "Menu 4", href: "#", icon: ChatBubbleLeftIcon, current: false },
-  { name: "Menu 5", href: "#", icon: ChatBubbleLeftIcon, current: false },
-];
-
-function Navigation() {
+const Navigation = withIsClient(() => {
   const { user } = useUser();
+  const { menuData } = useMenuStore();
+  const router = useRouter();
+  const pathname = router.asPath;
+
+  const generatePathname = (id: string) => `${PATH_WEBAPP.menus}/${id}`;
 
   return (
     <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6">
-      <div className="mt-2 flex h-16 shrink-0 items-center justify-center">
-        <Image
-          width={64}
-          height={64}
-          className="h-16 w-auto"
-          src={IMAGES.LOGO}
-          alt="Logo"
-        />
-      </div>
+      <Link href={PATH_WEBAPP.root} className="flex flex-col">
+        <Button className="-mx-2 mt-2 space-y-1 !p-2">
+          <div className="flex w-full items-center justify-between">
+            <span className="flex items-center">
+              <Image
+                width={28}
+                height={28}
+                className="h-7 w-auto"
+                src={IMAGES.CHEF_LOGO_WHITE}
+                alt="chef logo"
+              />
+              <span className="pl-2">New menu</span>
+            </span>
+            <PencilSquareIcon className="h-5 w-5" aria-hidden="true" />
+          </div>
+        </Button>
+      </Link>
       <nav className="flex flex-1 flex-col">
         <ul role="list" className="flex flex-1 flex-col gap-y-7">
           <li>
             <ul role="list" className="-mx-2 space-y-1">
-              {navigation.map((item) => (
-                <li key={item.name}>
-                  <a
-                    href={item.href}
+              {menuData.chatsMenu.map((item) => (
+                <li key={item.id}>
+                  <Link
+                    href={generatePathname(item.id)}
                     className={clsx(
-                      item.current
+                      generatePathname(item.id) == pathname
                         ? "bg-gray-200 text-black"
                         : "text-gray-500 hover:bg-gray-200 hover:text-black",
                       "group flex gap-x-3 rounded-md p-2 text-sm leading-6"
                     )}
                   >
-                    <item.icon
+                    <ChatBubbleLeftIcon
                       className={clsx(
-                        item.current
+                        generatePathname(item.id) == pathname
                           ? "text-black"
                           : "text-gray-500 group-hover:text-black",
                         "h-6 w-6 shrink-0"
                       )}
                       aria-hidden="true"
                     />
-                    {item.name}
-                  </a>
+                    {item.title}
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -79,7 +91,7 @@ function Navigation() {
       </nav>
     </div>
   );
-}
+});
 
 export default function Sidebar() {
   const [sidebarOpen, setSidebarOpen] = useState(false);

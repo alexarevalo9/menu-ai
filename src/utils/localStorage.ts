@@ -1,5 +1,5 @@
 const localStorageKeys = {
-  recipes: "recipes",
+  chatMenu: "chatMenu",
 } as const;
 
 type LocalStorageKeys =

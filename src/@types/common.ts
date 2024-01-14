@@ -1,3 +1,11 @@
+export interface IChatMenu {
+  id: string;
+  title: string;
+  menu: IMenu[];
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface IMenu {
   slug: string;
   name: string;

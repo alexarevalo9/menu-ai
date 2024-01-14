@@ -5,22 +5,25 @@ import Button from "../Button/Button";
 import TextArea from "../RHF/TextArea/TextArea";
 import { useCompletion } from "ai/react";
 import MenuCard from "../MenuCard/MenuCard";
-import {
-  getFromLocalStorage,
-  localStorageAvailable,
-  saveInLocalStorage,
-} from "@/utils/localStorage";
-import { type IMenu } from "@/@types/common";
+import { useMenuStore } from "@/store/menuStore";
+import { useRouter } from "next/router";
+import { PATH_WEBAPP } from "@/routes/paths";
+import withIsClient from "@/hocs/renderInClient";
 
 type FormProps = {
   prompt: string;
 };
 
 //TODO: Premium feature save menu in db with prisma (move Menu type to prisma)
-export default function MainContent() {
-  const [recipes, setRecipes] = React.useState<IMenu[]>([]);
-  const storageAvailable = localStorageAvailable();
+//TODO: Create function in zustand to append chatmenu when already exist a conversation
+//TODO: Save image in https://uploadthing.com/dashboard/0dp4y5ly80
+//TODO: Create a select function to select the type of menu (breakfast, lunch, dinner, etc)
+const MainContent = () => {
   const { completion, complete, isLoading } = useCompletion();
+  const { addNewChatMenu, menuData, setMenuData } = useMenuStore();
+  const router = useRouter();
+  const chatId = router.query?.index?.[1] || "";
+
   const methods = useForm<FormProps>({
     defaultValues: {
       prompt: "",
@@ -32,23 +35,22 @@ export default function MainContent() {
   };
 
   useEffect(() => {
-    if (!completion) return;
-    const newRecipes = [...recipes, JSON.parse(completion)];
-    setRecipes(newRecipes);
-
-    if (storageAvailable) {
-      saveInLocalStorage("recipes", JSON.stringify(newRecipes));
+    if (completion) {
+      addNewChatMenu(completion);
     }
   }, [completion]);
 
   useEffect(() => {
-    if (storageAvailable) {
-      const recipes = getFromLocalStorage("recipes");
-      if (recipes) {
-        setRecipes(JSON.parse(recipes) as IMenu[]);
-      }
+    if (menuData.uuid) {
+      void router.replace(`${PATH_WEBAPP.menus}/${menuData.uuid}`);
+      setMenuData({ ...menuData, uuid: "", menus: [] });
     }
-  }, []);
+  }, [menuData]);
+
+  const getMenuFromChat = (chatId: string) => {
+    if (!chatId) return;
+    return menuData.chatsMenu.find((chat) => chat.id === chatId);
+  };
 
   return (
     <>
@@ -95,12 +97,14 @@ export default function MainContent() {
       <div className="bg-white">
         <div className="mx-auto max-w-7xl">
           <div className="mx-auto mt-7 grid max-w-2xl auto-rows-fr grid-cols-1 gap-8 lg:mx-0 lg:max-w-none lg:grid-cols-2">
-            {recipes.map((recipe) => (
-              <MenuCard key={recipe.slug} {...recipe} />
+            {getMenuFromChat(chatId)?.menu.map((menu) => (
+              <MenuCard key={menu.slug} {...menu} />
             ))}
           </div>
         </div>
       </div>
     </>
   );
-}
+};
+
+export default withIsClient(MainContent);

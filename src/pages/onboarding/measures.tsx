@@ -7,6 +7,7 @@ import { useOnboardingStore } from "@/store/onboardingStore";
 import { useRouter } from "next/router";
 import useLocales from "@/locales/useLocales";
 import { api } from "@/utils/api";
+import { PATH_WEBAPP } from "@/routes/paths";
 
 type FormMeasuresProps = {
   height: string;
@@ -16,7 +17,7 @@ type FormMeasuresProps = {
 export default function MeasuresPage() {
   const { mutate, isLoading } = api.user.createOnBoarding.useMutation({
     onSuccess: () => {
-      void router.push("/");
+      void router.push(PATH_WEBAPP.root);
     },
   });
   const { onboardingData, setOnboardingData } = useOnboardingStore();
