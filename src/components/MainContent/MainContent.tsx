@@ -16,7 +16,7 @@ type FormProps = {
 
 //TODO: Premium feature save menu in db with prisma (move Menu type to prisma)
 //TODO: Create function in zustand to append chatmenu when already exist a conversation
-//TODO: Save image in https://uploadthing.com/dashboard/0dp4y5ly80
+//TODO: Save image (from the backend) in https://uploadthing.com/dashboard/0dp4y5ly80
 //TODO: Create a select function to select the type of menu (breakfast, lunch, dinner, etc)
 const MainContent = () => {
   const { completion, complete, isLoading } = useCompletion();

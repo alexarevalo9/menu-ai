@@ -1,6 +1,6 @@
 import { appRouter } from "@/server/api/root";
 import { createTRPCContext } from "@/server/api/trpc";
-import { type User } from "@clerk/nextjs/dist/server";
+import { type User } from "@clerk/nextjs/dist/types/server";
 import { TRPCError } from "@trpc/server";
 import { getHTTPStatusCodeFromError } from "@trpc/server/http";
 import { type NextApiRequest, type NextApiResponse } from "next";
