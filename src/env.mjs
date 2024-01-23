@@ -9,6 +9,10 @@ const server = z.object({
   NODE_ENV: z.enum(["development", "test", "production"]),
   CLERK_SECRET_KEY: z.string(),
   OPENAI_API_KEY: z.string(),
+  DO_SPACES_URL: z.string(),
+  DO_SPACES_ID: z.string(),
+  DO_SPACES_SECRET: z.string(),
+  DO_SPACES_BUCKET: z.string(),
 });
 
 /**
@@ -44,6 +48,10 @@ const processEnv = {
     process.env.NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL,
   NEXT_PUBLIC_CLERK_SIGN_UP_URL: process.env.NEXT_PUBLIC_CLERK_SIGN_UP_URL,
   OPENAI_API_KEY: process.env.OPENAI_API_KEY,
+  DO_SPACES_URL: process.env.DO_SPACES_URL,
+  DO_SPACES_ID: process.env.DO_SPACES_ID,
+  DO_SPACES_SECRET: process.env.DO_SPACES_SECRET,
+  DO_SPACES_BUCKET: process.env.DO_SPACES_BUCKET,
 };
 
 // Don't touch the part below

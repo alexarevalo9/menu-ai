@@ -105,7 +105,7 @@ export default async function handler(req: NextRequest) {
     });
 
     const data: ResponseTypes["createChatCompletion"] = await completion.json();
-    const recipeString = data.choices[0]?.message?.content;
+    const recipeString = data?.choices[0]?.message?.content;
 
     if (!recipeString) {
       return new Response("No recipe generated", {
@@ -125,7 +125,14 @@ export default async function handler(req: NextRequest) {
     });
 
     const imageData: ResponseTypes["createImage"] = await imageResponse.json();
+    //TODO: if imageData.data is undefined set default image
+    console.log("====>", imageData, imageData.data);
     const imageUrl = imageData.data[0]?.url;
+
+    if (imageUrl) {
+      const uploadedImage = await uploadImage(imageUrl);
+      console.log("uploadedImage", uploadedImage);
+    }
 
     const content = JSON.parse(data.choices[0]?.message?.content ?? "{}");
     const recipeWithImage = {
@@ -141,3 +148,24 @@ export default async function handler(req: NextRequest) {
     });
   }
 }
+
+const uploadImage = async (imageUrl: string) => {
+  try {
+    const form = new FormData();
+    const response = await fetch(imageUrl);
+    const blob = await response.blob();
+    const file = new File([blob], "image", { type: blob.type });
+
+    form.append("image", file);
+
+    // TODO: move this to a env var
+    const uploadResponse = await fetch("http://localhost:3000/api/upload", {
+      method: "POST",
+      body: form,
+    });
+
+    return uploadResponse.json();
+  } catch (error) {
+    console.error("Error:", error);
+  }
+};

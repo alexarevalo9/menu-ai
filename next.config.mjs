@@ -20,7 +20,12 @@ const config = {
   },
   images: {
     dangerouslyAllowSVG: true,
-    domains: ["tailwindui.com", "images.unsplash.com"],
+    domains: [
+      "tailwindui.com",
+      "images.unsplash.com",
+      "menu.ai.nyc3.digitaloceanspaces.com",
+      "menu.ai.nyc3.cdn.digitaloceanspaces.com",
+    ],
     remotePatterns: [
       {
         protocol: "https",
