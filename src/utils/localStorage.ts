@@ -23,7 +23,12 @@ export function localStorageAvailable() {
 
 export function saveInLocalStorage(key: LocalStorageKeys, value: string) {
   if (localStorageAvailable()) {
-    window.localStorage.setItem(key, value);
+    try {
+      window.localStorage.setItem(key, value);
+    } catch (err) {
+      // Storage quotas vary by browser; persistence must not break generation.
+      console.warn("Could not save recipes to localStorage", err);
+    }
   }
 }
 

@@ -87,13 +87,14 @@ export default async function handler(req: NextRequest) {
 
   If you've found a recipe, send the output in JSON format as the following sample in *** 
 
-  ***${JSON.stringify(recipeSample)}***
+  ${JSON.stringify(recipeSample)}
+
+  Return only valid JSON. Do not wrap it in Markdown, code fences, or asterisks.
   `;
 
   if (req.method === "POST") {
     const completion = await openai.createChatCompletion({
-      model: "gpt-3.5-turbo",
-      temperature: 0.8,
+      model: "gpt-4o-mini",
       stream: false,
       messages: [
         {
@@ -116,20 +117,65 @@ export default async function handler(req: NextRequest) {
       });
     }
 
-    const recipe = JSON.parse(recipeString) as IMenu;
+    console.log(recipeString);
 
+    // Models sometimes wrap JSON in Markdown/code fences or the *** markers
+    // from the old example prompt. Extract only the JSON object before parsing.
+    const jsonStart = recipeString.indexOf("{");
+    const jsonEnd = recipeString.lastIndexOf("}");
+
+    if (jsonStart === -1 || jsonEnd <= jsonStart) {
+      return new Response("The model did not return a valid recipe JSON object", {
+        status: 502,
+        headers: { "content-type": "text/plain" },
+      });
+    }
+
+    let recipe: IMenu;
+    try {
+      recipe = JSON.parse(recipeString.slice(jsonStart, jsonEnd + 1)) as IMenu;
+    } catch (error) {
+      console.error("Invalid recipe JSON returned by the model", error, recipeString);
+      return new Response("The model returned invalid recipe JSON", {
+        status: 502,
+        headers: { "content-type": "text/plain" },
+      });
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     const imageResponse = await openai.createImage({
+      model: "gpt-image-1",
       prompt: `A high-quality photograph of the meal ${recipe.name}: ${recipe.description}`,
       n: 1,
       size: "1024x1024",
-    });
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } as any);
 
     const imageData: ResponseTypes["createImage"] = await imageResponse.json();
-    const imageUrl = imageData.data[0]?.url;
+    console.log(imageData);
+    if (!imageData.data?.[0]) {
+      return new Response("Image generation failed", {
+        status: 502,
+        headers: { "content-type": "text/plain" },
+      });
+    }
 
-    const content = JSON.parse(data.choices[0]?.message?.content ?? "{}");
+    // GPT image models return base64 data instead of a hosted URL.
+    const imageUrl =
+      imageData.data[0].url ??
+      (imageData.data[0].b64_json
+        ? `data:image/png;base64,${imageData.data[0].b64_json}`
+        : undefined);
+
+    if (!imageUrl) {
+      return new Response("Image generation returned no image data", {
+        status: 502,
+        headers: { "content-type": "text/plain" },
+      });
+    }
+
     const recipeWithImage = {
-      ...content,
+      ...recipe,
       image: imageUrl,
     };
 

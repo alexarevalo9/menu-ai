@@ -32,14 +32,34 @@ export default function MainContent() {
   };
 
   useEffect(() => {
-    if (!completion) return;
-    const newRecipes = [...recipes, JSON.parse(completion)];
-    setRecipes(newRecipes);
+    // useCompletion updates `completion` while the response is streaming.
+    // Only parse after the final chunk has arrived.
+    if (!completion || isLoading) return;
 
-    if (storageAvailable) {
-      saveInLocalStorage("recipes", JSON.stringify(newRecipes));
+    let recipe: IMenu;
+    try {
+      recipe = JSON.parse(completion) as IMenu;
+    } catch {
+      // Ignore incomplete streamed JSON; the next update may contain the rest.
+      return;
     }
-  }, [completion]);
+
+    setRecipes((previousRecipes) => {
+      const newRecipes = [...previousRecipes, recipe];
+
+      if (storageAvailable) {
+        // Generated GPT images are large base64 strings and do not belong in
+        // localStorage. Keep the image in memory, but persist recipe metadata.
+        const recipesForStorage = newRecipes.map((storedRecipe) => ({
+          ...storedRecipe,
+          image: storedRecipe.image.startsWith("data:") ? "" : storedRecipe.image,
+        }));
+        saveInLocalStorage("recipes", JSON.stringify(recipesForStorage));
+      }
+
+      return newRecipes;
+    });
+  }, [completion, isLoading, storageAvailable]);
 
   useEffect(() => {
     if (storageAvailable) {

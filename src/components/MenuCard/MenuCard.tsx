@@ -10,7 +10,7 @@ export default function MenuCard(menu: IMenu) {
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src={menu.image}
+        src={menu.image || "/assets/logos/chef-logo.svg"}
         alt={menu.name}
         className="absolute inset-0 -z-10 h-full w-full object-cover"
       />
